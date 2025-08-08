@@ -2,26 +2,36 @@
 
 <template>
   <div class="json-lab">
-    <h1>🗄️ JSON Data & Vue Directives Lab</h1>
+    <h1>JSON Data & Vue Directives Lab</h1>
 
     <section class="lab-section">
-      <h2>📚 Working with JSON Arrays</h2>
+      <h2>Working with JSON Arrays</h2>
       <p>Our <code>authors.json</code> contains an array of author objects.</p>
 
       <h3>Iterating through Arrays</h3>
       <!-- Activity 6: Render a list containing author names and their birth years. Hint: Make use of the v-for directive to iterate through the array of authors. -->
-      <!-- TODO: CODE TO RENDER LIST OF AUTHORS HERE -->
+      <ul>
+        <li v-for="author in authors" :key="author.id">
+          {{ author.name }} ({{ author.birthYear }})
+        </li>
+      </ul>
 
       <h3>Filtering Arrays</h3>
       <!-- Activity 7: Render a list containing authors born after 1850. Hint: Make use of the v-for directive to iterate through the array of authors that you have filtered out. -->
       <p>Authors born after 1850:</p>
-      <!-- TODO: CODE TO RENDER LIST OF AUTHORS HERE -->
+      <ul>
+        <li v-for="author in modernAuthors" :key="author.id">
+          {{ author.name }} ({{ author.birthYear }})
+        </li>
+      </ul>
 
       <h3>Mapping Arrays</h3>
       <p>Famous works:</p>
       <ul>
         <!-- Activity 8: Render a list of all famous works. Hint: Use the v-for directive to iterate through the array of authors that you have filtered out. -->
-        <!-- TODO: CODE TO RENDER LIST OF FAMOUS WORKS HERE -->
+        <li v-for="work in allFamousWorks" :key="work">
+          {{ work }}
+        </li>
       </ul>
 
       <h3>Finding in Arrays</h3>
@@ -34,7 +44,7 @@
     </section>
 
     <section class="lab-section">
-      <h2>🏢 Working with JSON Objects</h2>
+      <h2>Working with JSON Objects</h2>
       <p>Our <code>bookstores.json</code> is a JSON object.</p>
 
       <h3>Accessing Properties</h3>
@@ -73,7 +83,7 @@
       <!-- Activity 13: Toggle the message visibility when the button is clicked. -->
       <!-- TODO: CODE TO TOGGLE MESSAGE VISIBILITY HERE. Hint: Use the v-if directive. -->
       <button @click="showMessage = !showMessage">Toggle Message</button>
-      <p class="message success">✨ You're a Vue superstar! ✨</p>
+      <p class="message success">You're a Vue superstar!</p>
       <p>Click the button to see a message.</p>
     </section>
 
@@ -95,13 +105,11 @@ import bookstores from '../assets/json/bookstores.json'
 const showMessage = ref(false)
 
 // Activity 2: Get authors born after 1850
-const modernAuthors = computed(() =>
-  authors.filter((author) => author.birthYear > 1850)
-)
+const modernAuthors = computed(() => authors.filter((author) => author.birthYear > 1850))
 
 // Activity 3: Get all famous works
 const allFamousWorks = computed(() =>
-  authors.flatMap((author) => author.famousWorks.map((work) => work.title))
+  authors.flatMap((author) => author.famousWorks.map((work) => work.title)),
 )
 
 // Activity 4: Find author by name
