@@ -11,18 +11,28 @@
       <h3>Iterating through Arrays</h3>
       <!-- Activity 6: Render a list containing author names and their birth years. Hint: Make use of the v-for directive to iterate through the array of authors. -->
       <ul>
-        <li v-for="author in authors" :key="author.id">
-          {{ author.name }} ({{ author.birthYear }})
-        </li>
+        <li v-for="author in authors" :key="author.id"
+            :class="{ highlight: author.name === 'George Orwell' }"
+            :style="{ fontWeight: author.name === 'George Orwell' ? 'bold' : 'normal' }"
+            :title="author.name === 'George Orwell' ? 'Featured Author: George Orwell' : ''">
+          {{ author.name }} ({{ author.birthYear }}) <!-- Activity 6 core functionality -->
+        </li> <!-- Highlight bindings: :class, :style, :title -->
       </ul>
 
       <h3>Filtering Arrays</h3>
       <!-- Activity 7: Render a list containing authors born after 1850. Hint: Make use of the v-for directive to iterate through the array of authors that you have filtered out. -->
       <p>Authors born after 1850:</p>
       <ul>
-        <li v-for="author in modernAuthors" :key="author.id">
-          {{ author.name }} ({{ author.birthYear }})
-        </li>
+        <li v-for="author in modernAuthors" :key="author.id"
+            :class="['modern-author', { highlight: author.name === 'George Orwell' }]"
+            :style="{ 
+              fontWeight: author.name === 'George Orwell' ? 'bold' : 'normal',
+              color: author.name === 'George Orwell' ? '#2c3e50' : 'inherit'
+            }"
+            :data-author-id="author.id"
+            :aria-label="author.name === 'George Orwell' ? 'Featured author' : 'Author'">
+          {{ author.name }} ({{ author.birthYear }}) <!-- Activity 7 core functionality -->
+        </li> <!-- Highlight bindings: :class, :style, :data-author-id, :aria-label -->
       </ul>
 
       <h3>Mapping Arrays</h3>
@@ -90,6 +100,38 @@
     <section class="lab-section">
       <h2>Attribute, Class and Style Binding with <code>v-bind</code></h2>
       <p>Highlighting Specific Authors:</p>
+      <div class="binding-examples">
+        <h4>George Orwell with different bindings:</h4>
+        <div v-if="orwell" class="orwell-showcase">
+          <!-- Class binding -->
+          <p :class="{ highlight: true, 'featured-author': true }">
+            Class binding: {{ orwell.name }}
+          </p>
+          
+          <!-- Style binding -->
+          <p :style="{ 
+            backgroundColor: '#fff3cd', 
+            color: '#856404', 
+            padding: '10px', 
+            borderLeft: '4px solid #ffc107' 
+          }">
+            Style binding: {{ orwell.name }}
+          </p>
+          
+          <!-- Attribute binding -->
+          <p :title="`Famous works: ${orwell.famousWorks.map(work => work.title).join(', ')}`"
+             :data-birth-year="orwell.birthYear"
+             :aria-describedby="'orwell-info'"
+             class="attribute-demo">
+            Attribute binding: {{ orwell.name }} (hover for tooltip)
+          </p>
+          
+          <div id="orwell-info" class="author-info">
+            Birth Year: {{ orwell.birthYear }} | 
+            Famous Works: {{ orwell.famousWorks.length }} books
+          </div>
+        </div>
+      </div>
     </section>
   </div>
 </template>
